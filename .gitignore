@@ -37,6 +37,9 @@ yarn-error.*
 # Claude local settings (personal, not shared)
 .claude/settings.local.json
 
+# Claude project instructions (personal, not shared)
+CLAUDE.md
+
 # typescript
 *.tsbuildinfo
 
