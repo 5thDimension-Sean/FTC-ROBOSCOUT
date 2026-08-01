@@ -1,0 +1,7 @@
+name = "ftc-robotscout-proxy"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Secrets (set with `wrangler secret put`, NOT committed here):
+#   wrangler secret put FTC_API_USERNAME
+#   wrangler secret put FTC_API_KEY

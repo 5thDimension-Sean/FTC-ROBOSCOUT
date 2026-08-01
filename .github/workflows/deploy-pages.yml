@@ -1,8 +1,8 @@
 name: Deploy web to GitHub Pages
 
 # NOTE: GitHub Pages on a PRIVATE repo requires GitHub Pro (or making the repo
-# public). The deployed site itself is public, so the FTC API credentials
-# bundled below are extractable from the shipped JS — use a key you can rotate.
+# public). API calls route through the CORS proxy (see proxy/), so NO API key
+# is bundled into the site — the key stays in the Cloudflare Worker.
 
 on:
   push:
@@ -30,8 +30,9 @@ jobs:
       - run: npm ci
       - name: Export web build
         env:
-          EXPO_PUBLIC_FTC_API_USERNAME: ${{ secrets.EXPO_PUBLIC_FTC_API_USERNAME }}
-          EXPO_PUBLIC_FTC_API_KEY: ${{ secrets.EXPO_PUBLIC_FTC_API_KEY }}
+          # Proxy URL is public (it's just the endpoint); the API key lives in
+          # the Worker, not the bundle. Set it as a repo VARIABLE.
+          EXPO_PUBLIC_FTC_PROXY_URL: ${{ vars.EXPO_PUBLIC_FTC_PROXY_URL }}
         run: npx expo export --platform web
       - name: SPA fallback + disable Jekyll
         run: |

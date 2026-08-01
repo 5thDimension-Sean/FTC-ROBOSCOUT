@@ -7,7 +7,7 @@
  */
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { config, hasCredentials } from '../config/env';
+import { config, hasCredentials, useProxy } from '../config/env';
 import type {
   TeamListing,
   EventListing,
@@ -38,12 +38,20 @@ function client(): AxiosInstance {
     );
   }
   if (!instance) {
-    instance = axios.create({
-      baseURL: config.apiBase,
-      auth: { username: config.username, password: config.apiKey },
-      headers: { Accept: 'application/json' },
-      timeout: 15000,
-    });
+    // Proxy mode: hit the Worker (which injects Basic Auth + CORS). Direct
+    // mode: call the FTC API with Basic Auth from env.
+    instance = useProxy()
+      ? axios.create({
+          baseURL: config.proxyUrl,
+          headers: { Accept: 'application/json' },
+          timeout: 15000,
+        })
+      : axios.create({
+          baseURL: config.apiBase,
+          auth: { username: config.username, password: config.apiKey },
+          headers: { Accept: 'application/json' },
+          timeout: 15000,
+        });
   }
   return instance;
 }
