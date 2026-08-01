@@ -71,12 +71,13 @@ export function TeamDetailScreen({ route, navigation }: Props) {
         ) : null}
       </Card>
 
-      {/* TrueSkill placeholder — populated once the ranking engine lands */}
+      {/* TrueSkill — computed live on the TrueSkill tab */}
       <SectionTitle>TrueSkill</SectionTitle>
       <Card>
         <Text style={{ color: palette.textMuted, ...typography.body }}>
-          TrueSkill rating is computed from match results across the season. The
-          ranking engine is coming in a later build.
+          This team's Bayesian rating (μ − 3σ) is computed from real match
+          results on the TrueSkill tab, ranked against the teams it competes
+          with.
         </Text>
       </Card>
 

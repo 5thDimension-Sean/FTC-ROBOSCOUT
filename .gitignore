@@ -34,10 +34,8 @@ yarn-error.*
 .env
 .env*.local
 
-# Claude local settings (personal, not shared)
-.claude/settings.local.json
-
-# Claude project instructions (personal, not shared)
+# Claude (personal, not shared)
+.claude/
 CLAUDE.md
 
 # typescript
