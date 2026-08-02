@@ -17,8 +17,20 @@
  *   EXPO_PUBLIC_FTC_PROXY_URL=https://…workers.dev # proxy mode (web)
  *   EXPO_PUBLIC_FTC_SEASON=2025                     # optional
  */
+import { Platform } from 'react-native';
 
 export const FTC_API_BASE = 'https://ftc-api.firstinspires.org/v2.0';
+
+/**
+ * Deployed CORS proxy (Cloudflare Worker). This URL is public and non-secret —
+ * the FTC credentials live inside the Worker, never in this bundle. The web
+ * build defaults to it so the hosted site works with no CI config; native/local
+ * dev defaults to direct mode. Override either with EXPO_PUBLIC_FTC_PROXY_URL.
+ */
+const DEFAULT_PROXY_URL =
+  Platform.OS === 'web'
+    ? 'https://ftc-robotscout-proxy.5thdimension-sean.workers.dev'
+    : '';
 
 /**
  * FTC season year. A season labelled "2025" is the 2025–2026 game.
@@ -29,7 +41,7 @@ export const DEFAULT_SEASON = '2025';
 
 export const config = {
   apiBase: FTC_API_BASE,
-  proxyUrl: process.env.EXPO_PUBLIC_FTC_PROXY_URL ?? '',
+  proxyUrl: process.env.EXPO_PUBLIC_FTC_PROXY_URL || DEFAULT_PROXY_URL,
   username: process.env.EXPO_PUBLIC_FTC_API_USERNAME ?? '',
   apiKey: process.env.EXPO_PUBLIC_FTC_API_KEY ?? '',
   season: process.env.EXPO_PUBLIC_FTC_SEASON ?? DEFAULT_SEASON,
